@@ -1,80 +1,146 @@
 <script>
-	import jikanjs from 'jikanjs';
-	import AnimePanel from './Anime.svelte';
-	function randomFromArray(arr){
-		return arr[Math.floor(Math.random() * arr.length)]
-	};
-	let found = 0;
-	let pkg;
-	let seeNSFW = 0;
-	function getRandomAnime(){
-		let season = randomFromArray(['fall','spring','winter','summer']);
-		let currentYear = new Date().getFullYear();
-		let year = Math.floor(Math.random() * (currentYear - (currentYear - 15 + 1)) + currentYear-15);
-		let seasonAnimes = jikanjs.loadSeason(year, season)
-			.then((response) => {
-				let anime = randomFromArray(response.anime);
-				if (!seeNSFW) {
-					while (anime.r18){
-						anime = randomFromArray(response.anime);
-					}
-				}
-				console.log(anime);
-				let genreString = '';
-				for (let i = 0; i < anime.genres.length; i++) {
-					genreString += anime.genres[i].name + ', ';
-				};
-				pkg = {
-					title: anime.title,
-					url: anime.url,
-					synopsis: anime.synopsis,
-					cover: anime.image_url,
-					genre: genreString,
-					episode: anime.episodes,
-					airing_start: anime.airing_start,
-					producer: anime.producer,
-					score: anime.score,
-				}
-				found = 1;
-			})
-	}
-	getRandomAnime();
+  import jikanjs from "jikanjs";
+  import AnimePanel from "./Anime.svelte";
+  function randomFromArray(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+  let found = 0;
+  let pkg;
+  let NSFW = 0;
+  let minYear = 2016;
+  let minScore = 7;
 
+  function opentab(tabid) {
+    var i;
+    var x = document.getElementsByClassName("tabs");
+    for (i = 0; i < x.length; i++) {
+      x[i].style.display = "none";
+    }
+    document.getElementById(tabid).style.display = "block";
+  }
+
+  function getRandomAnime() {
+    let season = randomFromArray(["fall", "spring", "winter", "summer"]);
+    let currentYear = new Date().getFullYear();
+    let year = Math.floor(
+      Math.random() * (currentYear - (minYear + 1)) + minYear
+    );
+    let seasonAnimes = jikanjs.loadSeason(year, season).then((response) => {
+      let anime = randomFromArray(response.anime);
+
+      while (
+        anime.r18 != NSFW ||
+        anime.airing_start.slice(0, 4) < minYear ||
+        anime.score < minScore
+      ) {
+        anime = randomFromArray(response.anime);
+      }
+      console.log(anime);
+      let genreString = "";
+      for (let i = 0; i < anime.genres.length; i++) {
+        genreString += anime.genres[i].name + ", ";
+      }
+      pkg = {
+        title: anime.title,
+        url: anime.url === null ? "?" : anime.url,
+        synopsis: anime.synopsis === null ? "?" : anime.synopsis,
+        cover: anime.image_url,
+        genre: genreString,
+        episode: anime.episodes,
+        airing_start: anime.airing_start,
+        producer: anime.producer,
+        score: anime.score === null ? "?" : anime.score,
+      };
+      found = 1;
+    });
+  }
+  getRandomAnime();
 </script>
 
 <main>
-	<AnimePanel {...pkg}  style="padding-bottom: 50px;"/>s
+  <div class="tabs" id="content">
+    <AnimePanel {...pkg} />
+    <button on:click={getRandomAnime}>Random</button>
+    <button on:click={() => opentab("settings")}>Settings</button>
+  </div>
+  <div class="tabs" id="settings" style="display: none;">
+    <label>
+      NSFW
+      <input type="checkbox" bind:checked={NSFW} />
+    </label>
+    <label>
+      Min. Score
+      <input type="number" bind:value={minScore} />
+    </label>
+    <label>
+      Min. Year
+      <input type="number" bind:value={minYear} />
+    </label>
 
-	<div style="position:fixed; bottom: 60px; text-align:center; width: 100vw; color:aliceblue">
-		<a href="https://github.com" style="color:aliceblue">Github</a> | 
-		<a href="https://ko-fi.com/r4yish" style="color:aliceblue">Support me</a> | 
-		<input type="checkbox" bind:value={seeNSFW}> see NSFW
-	</div>
-	<button accesskey="enter" on:click={getRandomAnime}>Random an anime</button>
+    <button on:click={() => opentab("content")}>Back</button>
+  </div>
 </main>
 
 <style>
+  :root {
+    background-color: #191919;
+  }
 
-	@media (max-width: 640px) {
-		
-        div {
-            text-align: left;
-        }
-	}
-	
-	:root {
-		background-color: #282a36;
-		overflow: hidden;
-	}
-	
-	button {
-		background-color: #44475a;
-		color: #f8f8f2;
-		position: absolute;
-		left: 0px;
-		bottom: 0px;
-		border: 0px;
-		width: 100%;
-		height: 40px;
-	}
+  .tabs {
+    width: 80vw;
+    text-align: center;
+    display: block;
+    margin: auto;
+    /*flex-direction: column;*/
+  }
+
+  .tabs > button {
+    text-align: center;
+    width: 20vw;
+    background-color: #393939;
+    color: #f0f0f0;
+    border-radius: 4px;
+    border: 4px dashed #4c4c4c;
+    box-sizing: border-box;
+    box-shadow: 5px 10px #0f0f0f88;
+    padding: 10px;
+    position: relative;
+    margin: 0 auto 10px 10px;
+  }
+
+  input[type="checkbox"] {
+    background-color: #393939;
+    height: 30px;
+    width: 30px;
+    border-radius: 5px;
+  }
+
+  label {
+    color: #bfbfbf;
+    font-size: 20px;
+  }
+
+  #settings {
+    text-align: left;
+  }
+
+  @media screen and (max-width: 840px) {
+
+    .tabs {
+      width: 100vw;
+      text-align: left;
+      text-align: center;
+    }
+    .tabs > button {
+      width: 80vw;
+      background-color: #393939;
+      color: #f0f0f0;
+      border-radius: 4px;
+      border: 4px dashed #4c4c4c;
+      box-sizing: border-box;
+      box-shadow: 5px 10px #0f0f0faa;
+      position: relative;
+      text-align: center;
+    }
+  }
 </style>
