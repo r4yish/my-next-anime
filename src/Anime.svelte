@@ -59,7 +59,6 @@
     width: auto;
   }
 
-
   #synopsis > .content {
     box-sizing: border-box;
     border-radius: 5px;
@@ -72,7 +71,7 @@
     color: #000;
     background: #fff;
     padding: 15px;
-    transition: 1s;
+    transition: 0s;
   }
 
   #synopsis > .content > .a {
@@ -81,7 +80,6 @@
     display: -webkit-box;
     overflow: hidden;
   }
-  
 
   #synopsis > .content:before {
     content: "";
@@ -119,6 +117,7 @@
     }
 
     #synopsis > .content {
+      transition: 0.5s;
       max-width: 50vw;
     }
   }
