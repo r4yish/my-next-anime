@@ -11,7 +11,7 @@
 </script>
 
 <div class="flex-container">
-  <div>
+  <div id="b">
     <img src={cover} alt="cover" />
   </div>
   <div>
@@ -23,10 +23,10 @@
     <div id="synopsis">
       <p><strong>Hover for synopsis</strong></p>
       <div class="content">
-        <div class="a">{synopsis}</div>
+        <div id="a">{synopsis}</div>
       </div>
     </div>
-    <strong><a href={url} target="_blank">Myanimelist Link</a></strong>
+    <a href={url} target="_blank"><strong>Myanimelist Link</strong></a>
   </div>
 </div>
 
@@ -51,7 +51,6 @@
   strong,
   a {
     color: #faf9f9;
-    text-align: left;
   }
 
   img {
@@ -74,7 +73,7 @@
     transition: 0s;
   }
 
-  #synopsis > .content > .a {
+  #synopsis > .content > #a {
     -webkit-line-clamp: 17;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -106,14 +105,19 @@
       position: relative;
     }
 
-    .flex-container > div {
+    .flex-container > div{
       padding: 20px;
       text-align: left;
+      width: 50%;
+    }
+
+    .flex-container > #b {
+      text-align: right;
     }
 
     img {
-      width: 240px !important;
-      height: auto;
+      height: 300px !important;
+      width: auto;
     }
 
     #synopsis > .content {
