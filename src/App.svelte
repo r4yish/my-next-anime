@@ -87,25 +87,26 @@
   }
 
   .tabs {
-    width: 80vw;
+    width: 100vw;
     text-align: center;
-    display: block;
-    margin: auto;
-    /*flex-direction: column;*/
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
   }
 
   .tabs > button {
-    text-align: center;
-    width: 20vw;
+    width: 80vw;
     background-color: #393939;
     color: #f0f0f0;
-    border-radius: 4px;
     border: 4px dashed #4c4c4c;
+    border-radius: 4px;
     box-sizing: border-box;
-    box-shadow: 5px 10px #0f0f0f88;
-    padding: 10px;
+    box-shadow: 5px 10px #0f0f0faa;
     position: relative;
-    margin: 0 auto 10px 10px;
+    text-align: center;
+    margin: 10px 10px 0px 0px;
   }
 
   input[type="checkbox"] {
@@ -120,27 +121,21 @@
     font-size: 20px;
   }
 
-  #settings {
-    text-align: left;
-  }
-
-  @media screen and (max-width: 840px) {
-
+  @media screen and (min-width: 840px) {
     .tabs {
-      width: 100vw;
-      text-align: left;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
       text-align: center;
+      display: block;
+      margin: auto;
     }
+
     .tabs > button {
-      width: 80vw;
-      background-color: #393939;
-      color: #f0f0f0;
-      border-radius: 4px;
-      border: 4px dashed #4c4c4c;
-      box-sizing: border-box;
-      box-shadow: 5px 10px #0f0f0faa;
-      position: relative;
-      text-align: center;
+      width: 20vw;
+      margin: 0px 10px 0px 10px;
     }
   }
 </style>
