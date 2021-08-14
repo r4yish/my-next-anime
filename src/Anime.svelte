@@ -23,7 +23,7 @@
     <div id="synopsis">
       <p><strong>Hover for synopsis</strong></p>
       <div class="content">
-        {synopsis}
+        <div class="a">{synopsis}</div>
       </div>
     </div>
     <strong><a href={url} target="_blank">Myanimelist Link</a></strong>
@@ -59,9 +59,10 @@
     width: auto;
   }
 
+
   #synopsis > .content {
     box-sizing: border-box;
-    border-radius: 4px;
+    border-radius: 5px;
     visibility: hidden;
     opacity: 0;
     width: 700px;
@@ -70,10 +71,17 @@
     bottom: 180px;
     color: #000;
     background: #fff;
-    padding: 20px;
+    padding: 15px;
     transition: 1s;
-    /*transform: translateX(-50%) translateY(-50px);*/
   }
+
+  #synopsis > .content > .a {
+    -webkit-line-clamp: 17;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    overflow: hidden;
+  }
+  
 
   #synopsis > .content:before {
     content: "";
