@@ -78,22 +78,16 @@
   </div>
   <div class="tabs" id="settings" style="display: none;">
     <div class="grid">
-      <p id="label" class="grid-item" >
-        NSFW
-      </p>
-        <input class="grid-item" type="checkbox" bind:checked={NSFW} />
-      <p id="label"class="grid-item" >
-        Min. Score
-      </p>
-        <input class="grid-item" type="number" bind:value={minScore} />
-      <p id="label" class="grid-item" >
-        Min. Year
-      </p>
-        <input class="grid-item" type="number" bind:value={minYear} />
+      <p id="label" class="grid-item">NSFW</p>
+      <input class="grid-item" type="checkbox" bind:checked={NSFW} />
+      <p id="label" class="grid-item">Min. Score</p>
+      <input class="grid-item" type="number" bind:value={minScore} />
+      <p id="label" class="grid-item">Min. Year</p>
+      <input class="grid-item" type="number" bind:value={minYear} />
     </div>
     <button on:click={() => opentab("content")}>Back</button>
   </div>
-  <Kofi name="sleepysheeep" />
+  <Kofi name="sleepysheeep"/>
 </main>
 
 <style>
@@ -103,13 +97,14 @@
 
   .tabs {
     width: 100vw;
-    text-align: center;
     position: absolute;
-    bottom: 7vw;
-  }
-
-  #settings {
-    bottom: 30vw;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+    display: block;
+    margin: auto;
   }
 
   .grid {
@@ -167,21 +162,19 @@
     font-size: 20px;
   }
 
-  @media screen and (min-width: 840px) {
-    .tabs {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      -webkit-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%);
-      text-align: center;
-      display: block;
-      margin: auto;
+  @media screen and (min-width: 400px) {
+    .tabs > button {
+      width: 40vw;
+      margin: 0px 10px 0px 10px;
     }
+  }
 
+  @media screen and (min-width: 840px) {
     .tabs > button {
       width: 20vw;
       margin: 0px 10px 0px 10px;
     }
   }
+
+
 </style>

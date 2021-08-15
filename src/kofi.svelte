@@ -21,7 +21,7 @@
         {
           type: 'floating-chat',
           'floating-chat.donateButton.text': 'Support me',
-          'floating-chat.donateButton.background-color': '#ff3e00',
+          'floating-chat.donateButton.background-color': '#4c4c4c',
           'floating-chat.donateButton.text-color': '#fff',
         },
         'kofiContainer'
