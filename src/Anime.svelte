@@ -12,10 +12,10 @@
 </script>
 
 <div class="flex-container">
-  <div id="b">
+  <div id="pic">
     <img src={cover} alt="cover" />
   </div>
-  <div>
+  <div id="info">
     <h1>{title}</h1>
     <p><strong>Score : </strong>{score}</p>
     <p><strong>Episode : </strong>{episode}</p>
@@ -43,10 +43,13 @@
   }
 
   p,
-  a,h1,
-  strong {
+  h1 {
     color: #e7e7e7;
+  }
+
+  #info {
     text-align: left;
+    padding-bottom: 1em;
   }
 
   strong,
@@ -106,6 +109,12 @@
     font-size: 1rem;
   }
 
+  @media screen and (max-width: 840px) and (min-width: 400px) {
+    img {
+      height: 400px !important;
+      width: auto;
+    }
+  }
 
   @media screen and (min-width: 840px) {
     .flex-container {
@@ -116,13 +125,13 @@
       position: relative;
     }
 
-    .flex-container > div{
+    .flex-container > div {
       padding: 20px;
       text-align: left;
       width: 50%;
     }
 
-    .flex-container > #b {
+    .flex-container > #pic {
       text-align: right;
     }
 
