@@ -1,4 +1,5 @@
 <script>
+  import Kofi from "./kofi.svelte";
   export let title;
   export let url;
   export let synopsis;

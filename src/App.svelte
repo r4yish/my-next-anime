@@ -1,4 +1,5 @@
 <script>
+  import Kofi from './kofi.svelte';
   import jikanjs from "jikanjs";
   import AnimePanel from "./Anime.svelte";
   function randomFromArray(arr) {
@@ -57,6 +58,7 @@
   getRandomAnime();
 </script>
 
+<Kofi name="sleepysheeep" />
 <main>
   <div class="tabs" id="content">
     <AnimePanel {...pkg} />
