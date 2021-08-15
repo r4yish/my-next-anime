@@ -21,7 +21,7 @@
     <p><strong>Episode : </strong>{episode}</p>
     <p><strong>Genre : </strong>{genre}</p>
     <p><strong>Airing Start : </strong>{airing_start}</p>
-    <div id="synopsis">
+    <div id="synopsis" onclick="">
       <p><strong>Hover for synopsis</strong></p>
       <div class="content">
         <div id="a">{synopsis}</div>
@@ -58,6 +58,10 @@
     height: 240px !important;
     width: auto;
     max-width: 300px;
+  }
+
+  #synopsis {
+    cursor: pointer;
   }
 
   #synopsis > .content {
