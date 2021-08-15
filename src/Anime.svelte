@@ -16,7 +16,7 @@
     <img src={cover} alt="cover" />
   </div>
   <div>
-    <p style="font-size: 1.4rem;">{title}</p>
+    <h1>{title}</h1>
     <p><strong>Score : </strong>{score}</p>
     <p><strong>Episode : </strong>{episode}</p>
     <p><strong>Genre : </strong>{genre}</p>
@@ -43,7 +43,7 @@
   }
 
   p,
-  a,
+  a,h1,
   strong {
     color: #e7e7e7;
     text-align: left;
@@ -55,7 +55,7 @@
   }
 
   img {
-    height: 240px;
+    height: 240px !important;
     width: auto;
   }
 
@@ -97,6 +97,11 @@
     opacity: 1;
   }
 
+  h1 {
+    font-size: 1rem;
+  }
+
+
   @media screen and (min-width: 840px) {
     .flex-container {
       text-align: center;
@@ -124,6 +129,10 @@
     #synopsis > .content {
       transition: 0.5s;
       max-width: 50vw;
+    }
+
+    h1 {
+      font-size: 1.5rem;
     }
   }
 </style>
