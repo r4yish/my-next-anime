@@ -57,6 +57,7 @@
   img {
     height: 240px !important;
     width: auto;
+    max-width: 300px;
   }
 
   #synopsis > .content {
@@ -124,6 +125,7 @@
     img {
       height: 300px !important;
       width: auto;
+      max-width: 40vw;
     }
 
     #synopsis > .content {

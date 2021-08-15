@@ -1,5 +1,5 @@
 <script>
-  import Kofi from './kofi.svelte';
+  import Kofi from "./kofi.svelte";
   import jikanjs from "jikanjs";
   import AnimePanel from "./Anime.svelte";
   function randomFromArray(arr) {
@@ -45,7 +45,14 @@
       let offset = new Date().getTimezoneOffset();
       let hroffset = Math.floor(offset / 60);
       let minoffset = offset % 60;
-      let airingstart = `${airingStartDate.getDate()}/${airingStartDate.getMonth()+1}/${airingStartDate.getFullYear()} ${airingStartDate.getUTCHours()+hroffset}:${String(airingStartDate.getUTCMinutes()+minoffset).padStart(2, '0')}`;
+      let airingstart = `${airingStartDate.getDate()}/${
+        airingStartDate.getMonth() + 1
+      }/${airingStartDate.getFullYear()} ${
+        airingStartDate.getUTCHours() + hroffset
+      }:${String(airingStartDate.getUTCMinutes() + minoffset).padStart(
+        2,
+        "0"
+      )}`;
 
       pkg = {
         title: anime.title,
@@ -70,30 +77,30 @@
     <button on:click={() => opentab("settings")}>Settings</button>
   </div>
   <div class="tabs" id="settings" style="display: none;">
-    <label>
-      NSFW
-      <input type="checkbox" bind:checked={NSFW} />
-    </label>
-    <label>
-      Min. Score
-      <input type="number" bind:value={minScore} />
-    </label>
-    <label>
-      Min. Year
-      <input type="number" bind:value={minYear} />
-    </label>
-    
+    <div class="grid">
+      <p id="label" class="grid-item" >
+        NSFW
+      </p>
+        <input class="grid-item" type="checkbox" bind:checked={NSFW} />
+      <p id="label"class="grid-item" >
+        Min. Score
+      </p>
+        <input class="grid-item" type="number" bind:value={minScore} />
+      <p id="label" class="grid-item" >
+        Min. Year
+      </p>
+        <input class="grid-item" type="number" bind:value={minYear} />
+    </div>
     <button on:click={() => opentab("content")}>Back</button>
-    <Kofi name="sleepysheeep" />
-
   </div>
+  <Kofi name="sleepysheeep" />
 </main>
 
 <style>
   :root {
     background-color: #191919;
   }
-  
+
   .tabs {
     width: 100vw;
     text-align: center;
@@ -103,6 +110,19 @@
 
   #settings {
     bottom: 30vw;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid > .grid-item {
+    display: flex;
+    align-items: center;
+    margin: auto;
+    padding: 20px;
+    justify-content: center;
   }
 
   .tabs > button {
@@ -119,18 +139,33 @@
   }
 
   input[type="checkbox"] {
+    background-color: #c4c19e;
+    height: 20px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    border: #fff 1px solid;
+    border-radius: 5px;
+    transition-duration: 0.3s;
+  }
+
+  input[type="checkbox"]:checked {
+    background-color: red;
+  }
+
+  input {
     background-color: #393939;
-    height: 30px;
-    width: 30px;
+    color: #ccc;
+    height: 40px;
+    width: 100px;
     border-radius: 5px;
   }
 
-  label {
+  #label {
     color: #bfbfbf;
     font-size: 20px;
   }
-
-  
 
   @media screen and (min-width: 840px) {
     .tabs {
