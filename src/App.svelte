@@ -72,7 +72,7 @@
 			{/await}
 		</div>
 
-		<div class="absolute bottom-0 left-0 bg-gray-900 w-screen flex flex-row gap-x-20 items-center justify-around flex-nowrap">
+		<div class="absolute bottom-0 left-0 bg-gray-900 w-screen flex flex-row gap-x-5 sm:gap-x-20 items-center justify-around flex-nowrap">
 			<button
 				class="p-2 border-none bg-blue-800"
 				on:click={() => {
