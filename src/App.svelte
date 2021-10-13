@@ -1,180 +1,100 @@
-<script>
-  import Kofi from "./kofi.svelte";
-  import jikanjs from "jikanjs";
-  import AnimePanel from "./Anime.svelte";
-  function randomFromArray(arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
-  }
-  let pkg;
-  let NSFW = 0;
-  let minYear = 2016;
-  let minScore = 7;
+<script lang="ts">
+	// import Kofi from './kofi.svelte';
+	import jikanjs from 'jikanjs';
 
-  function opentab(tabid) {
-    var i;
-    var x = document.getElementsByClassName("tabs");
-    for (i = 0; i < x.length; i++) {
-      x[i].style.display = "none";
-    }
-    document.getElementById(tabid).style.display = "block";
-  }
+	const randomFromArray = (arr) => {
+		return arr[Math.floor(Math.random() * arr.length)];
+	};
 
-  function getRandomAnime() {
-    let season = randomFromArray(["fall", "spring", "winter", "summer"]);
-    let currentYear = new Date().getFullYear();
-    let year = Math.floor(
-      Math.random() * (currentYear - (minYear + 1)) + minYear
-    );
-    let seasonAnimes = jikanjs.loadSeason(year, season).then((response) => {
-      let anime = randomFromArray(response.anime);
+	let NSFW: boolean = false;
+	let minYear = 2016;
+	let minScore = 7;
 
-      while (
-        anime.r18 != NSFW ||
-        anime.airing_start.slice(0, 4) < minYear ||
-        anime.score < minScore
-      ) {
-        anime = randomFromArray(response.anime);
-      }
+	const getSeason = async () => {
+		let season = randomFromArray(['fall', 'spring', 'winter', 'summer']);
+		let currentYear = new Date().getFullYear();
+		let year = Math.floor(Math.random() * (currentYear - (minYear + 1)) + minYear);
+		return await jikanjs.loadSeason(year, season);
+	};
 
-      let genreString = "";
-      for (let i = 0; i < anime.genres.length; i++) {
-        genreString += anime.genres[i].name + ", ";
-      }
+	var anime;
 
-      let airingStartDate = new Date(anime.airing_start);
-      let offset = new Date().getTimezoneOffset();
-      let hroffset = Math.floor(offset / 60);
-      let minoffset = offset % 60;
-      let airingstart = `${airingStartDate.getDate()}/${
-        airingStartDate.getMonth() + 1
-      }/${airingStartDate.getFullYear()} ${
-        airingStartDate.getUTCHours() + hroffset
-      }:${String(airingStartDate.getUTCMinutes() + minoffset).padStart(
-        2,
-        "0"
-      )}`;
+	const getAnime = async () => {
+		var res = await getSeason();
+		var count = 0;
+		while (true) {
+			anime = randomFromArray(res.anime);
+			var valid = anime.r18 === NSFW && anime.score >= minScore;
+			if (valid) {
+				break;
+			}
+			count += 1;
+			if (count >= 100) {
+				res = await getSeason();
+				count = 0;
+			}
+		}
+		// console.log(anime);
+	};
 
-      pkg = {
-        title: anime.title,
-        url: anime.url === null ? "?" : anime.url,
-        synopsis: anime.synopsis === null ? "?" : anime.synopsis,
-        cover: anime.image_url,
-        genre: genreString,
-        episode: anime.episodes,
-        airing_start: airingstart,
-        producer: anime.producer,
-        score: anime.score === null ? "?" : anime.score,
-      };
-    });
-  }
-  getRandomAnime();
+	let promise = getAnime();
 </script>
 
-<main>
-  <div class="tabs" id="content">
-    <AnimePanel {...pkg} />
-    <button on:click={getRandomAnime}>Random</button>
-    <button on:click={() => opentab("settings")}>Settings</button>
-  </div>
-  <div class="tabs" id="settings" style="display: none;">
-    <div class="grid">
-      <p id="label" class="grid-item">NSFW</p>
-      <input class="grid-item" type="checkbox" bind:checked={NSFW} />
-      <p id="label" class="grid-item">Min. Score</p>
-      <input class="grid-item" type="number" bind:value={minScore} />
-      <p id="label" class="grid-item">Min. Year</p>
-      <input class="grid-item" type="number" bind:value={minYear} />
-    </div>
-    <button on:click={() => opentab("content")}>Back</button>
-  </div>
-  <Kofi name="sleepysheeep"/>
+<svelte:head />
+
+<main class="text-white bg-gray-800">
+	<div class="h-screen">
+		<div class="text-xl p-6">
+			{#await promise}
+				<div>Loading</div>
+			{:then users}
+				<img class="max-h-screen-md" src={anime.image_url} alt="cover" />
+				<div class="text-3xl my-4 text-green-200">{anime.title}</div>
+				<div class="my-4 text-2xl">⭐ {anime.score}</div>
+				<div class="my-4 ">
+					{#each anime.genres as genre}
+						{genre.name + ', '}
+					{/each}
+				</div>
+				<div class="my-4">
+					EP : {anime.episodes}
+				</div>
+				<div>Air Date : {new Date(anime.airing_start).toLocaleDateString()}</div>
+				<div class="my-4 ">
+					Studio :
+					{#each anime.producers as producer}
+						{producer.name + ', '}
+					{/each}
+				</div>
+				<div class="text-xl text-white"><a href={anime.url}>MAL link</a></div>
+			{:catch error}
+				<p style="color: red">{error.message}</p>
+			{/await}
+		</div>
+
+		<div class="absolute bottom-0 left-0 bg-gray-900 w-screen flex flex-row gap-x-20 items-center justify-around flex-nowrap">
+			<button
+				class="p-2 border-none bg-blue-800"
+				on:click={() => {
+					promise = getAnime();
+				}}>Random</button
+			>
+
+			<div>
+				<input class="appearance-none border-transparent w-4 h-4 bg-green-300 checked:bg-red-700 checked:border-transparent transition-all" style="transition-duration: 600ms" type="checkbox" bind:checked={NSFW} />
+				NSFW
+			</div>
+
+			<div class="">
+				Minimum Rating
+				<input type="number" min="0" max="9" class="text-black p-2" bind:value={minScore} />
+			</div>
+
+      <div class="bg-blue-800 p-4">
+        ☕ Support me
+      </div>
+		</div>
+	</div>
 </main>
 
-<style>
-  :root {
-    background-color: #191919;
-  }
-
-  .tabs {
-    width: 100vw;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    text-align: center;
-    display: block;
-    margin: auto;
-  }
-
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .grid > .grid-item {
-    display: flex;
-    align-items: center;
-    margin: auto;
-    padding: 20px;
-    justify-content: center;
-  }
-
-  .tabs > button {
-    width: 80vw;
-    background-color: #393939;
-    color: #f0f0f0;
-    border: 4px dashed #4c4c4c;
-    border-radius: 4px;
-    box-sizing: border-box;
-    box-shadow: 5px 10px #0f0f0faa;
-    position: relative;
-    text-align: center;
-    margin: 10px 10px 0px 0px;
-  }
-
-  input[type="checkbox"] {
-    background-color: #c4c19e;
-    height: 20px;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    -o-appearance: none;
-    appearance: none;
-    border: #fff 1px solid;
-    border-radius: 5px;
-    transition-duration: 0.3s;
-  }
-
-  input[type="checkbox"]:checked {
-    background-color: red;
-  }
-
-  input {
-    background-color: #393939;
-    color: #ccc;
-    height: 40px;
-    width: 100px;
-    border-radius: 5px;
-  }
-
-  #label {
-    color: #bfbfbf;
-    font-size: 20px;
-  }
-
-  @media screen and (min-width: 400px) {
-    .tabs > button {
-      width: 40vw;
-      margin: 0px 10px 0px 10px;
-    }
-  }
-
-  @media screen and (min-width: 840px) {
-    .tabs > button {
-      width: 20vw;
-      margin: 0px 10px 0px 10px;
-    }
-  }
-
-
-</style>
+<style></style>

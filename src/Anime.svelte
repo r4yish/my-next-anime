@@ -15,139 +15,17 @@
   <div id="pic">
     <img src={cover} alt="cover" />
   </div>
-  <div id="info">
-    <h1>{title}</h1>
-    <p><strong>Score : </strong>{score}</p>
-    <p><strong>Episode : </strong>{episode}</p>
-    <p><strong>Genre : </strong>{genre}</p>
-    <p><strong>Airing Start : </strong>{airing_start}</p>
-    <div id="synopsis" onclick="">
-      <p><strong>Hover for synopsis</strong></p>
-      <div class="content">
-        <div id="a">{synopsis}</div>
-      </div>
-    </div>
-    <a href={url} target="_blank"><strong>Myanimelist Link</strong></a>
+  <div id="info" class="">
+    <div class="text-3xl text-green-300">{title}</div>
+    <div class="text-gray-300">Score : {score}</div>
+    <div class="text-gray-300">Episode : {episode}</div>
+    <div class="text-gray-300">Genre : {genre}</div>
+    <div class="text-gray-300">Airing Date : {airing_start}</div>
+    <button class="block my-3 synopsis p-2 bg-blue-200">Synopsis
+    </button>
+    <a href={url} class="text-gray-300 font-normal" target="_blank"><strong>Myanimelist Link</strong></a>
   </div>
 </div>
 
 <style>
-  .flex-container {
-    display: flex;
-    flex-direction: column;
-    margin-left: 10vw;
-    width: 80vw;
-  }
-  .flex-container > div {
-    text-align: center;
-  }
-
-  p,
-  h1 {
-    color: #e7e7e7;
-  }
-
-  #info {
-    text-align: left;
-    padding-bottom: 1em;
-  }
-
-  strong,
-  a {
-    color: #faf9f9;
-  }
-
-  img {
-    height: 240px !important;
-    width: auto;
-    max-width: 300px;
-  }
-
-  #synopsis {
-    cursor: pointer;
-  }
-
-  #synopsis > .content {
-    box-sizing: border-box;
-    border-radius: 5px;
-    visibility: hidden;
-    opacity: 0;
-    width: 700px;
-    max-width: 80vw;
-    position: absolute;
-    bottom: 180px;
-    color: #000;
-    background: #fff;
-    padding: 15px;
-    transition: 0s;
-  }
-
-  #synopsis > .content > #a {
-    -webkit-line-clamp: 17;
-    -webkit-box-orient: vertical;
-    display: -webkit-box;
-    overflow: hidden;
-  }
-
-  #synopsis > .content:before {
-    content: "";
-    position: absolute;
-    width: 30px;
-    background: #fff;
-    height: 30px;
-    bottom: -15px;
-    left: 30px;
-    transform: rotate(45deg);
-  }
-
-  #synopsis:hover > .content {
-    visibility: visible;
-    opacity: 1;
-  }
-
-  h1 {
-    font-size: 1rem;
-  }
-
-  @media screen and (max-width: 840px) and (min-width: 400px) {
-    img {
-      height: 400px !important;
-      width: auto;
-    }
-  }
-
-  @media screen and (min-width: 840px) {
-    .flex-container {
-      text-align: center;
-      margin: auto;
-      display: flex;
-      flex-direction: row;
-      position: relative;
-    }
-
-    .flex-container > div {
-      padding: 20px;
-      text-align: left;
-      width: 50%;
-    }
-
-    .flex-container > #pic {
-      text-align: right;
-    }
-
-    img {
-      height: 300px !important;
-      width: auto;
-      max-width: 40vw;
-    }
-
-    #synopsis > .content {
-      transition: 0.5s;
-      max-width: 50vw;
-    }
-
-    h1 {
-      font-size: 1.5rem;
-    }
-  }
 </style>
