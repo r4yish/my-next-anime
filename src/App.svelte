@@ -72,7 +72,7 @@
 			{/await}
 		</div>
 
-		<div class="absolute bottom-0 left-0 bg-gray-900 w-screen flex flex-row gap-x-5 sm:gap-x-20 items-center justify-around flex-nowrap">
+		<div class="fixed bottom-0 left-0 bg-gray-900 w-screen flex flex-row gap-x-5 sm:gap-x-20 items-center justify-around flex-nowrap">
 			<button
 				class="p-2 border-none bg-blue-800"
 				on:click={() => {
@@ -91,7 +91,7 @@
 			</div>
 
       <div class="bg-blue-800 p-4">
-        ☕ Support me
+        <a href="https://ko-fi.com/sleepntsheep">☕ Support me</a>
       </div>
 		</div>
 	</div>
