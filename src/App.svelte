@@ -66,7 +66,7 @@
 				{/each}
 			</div>
 			<div class="text-xl text-white"><a href={anime.url}>MAL link</a></div>
-      <div class="m">Synopsis : {anime.synopsis}</div>
+      <div class="mb-10">Synopsis : {anime.synopsis}</div>
 		{:catch error}
 			<p style="color: red">{error.message}</p>
 		{/await}
