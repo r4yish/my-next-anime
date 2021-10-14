@@ -49,7 +49,7 @@
 	<meta property="twitter:url" content="https://my-next-anime.vercel.app" />
 </svelte:head>
 
-<main class="text-white">
+<main class="text-white min-h-screen bg-gray-700">
 	<div class="text-xl p-6">
 		{#await promise}
 			<div>Loading</div>
